@@ -17,8 +17,10 @@ public class playermovement : MonoBehaviour
     [SerializeField] float slideSpeed;
      [SerializeField] public TMP_Text Score;
      [SerializeField] public TMP_Text Life;
-    [SerializeField] public float Cupcake;
+    [SerializeField] public TMP_Text HighScores;
+    [SerializeField] public int Cupcake;
     [SerializeField] public float Vidas = 3;
+    public int SaveScore;
     public GameObject Panel;
     public Animator Freddy;
     public BoxCollider Agachado;
@@ -40,6 +42,8 @@ public class playermovement : MonoBehaviour
         Score.text = "X " + Cupcake; 
         Panel.SetActive(false);
         BGmusic.Play();
+        SaveScore = PlayerPrefs.GetInt("HighScore", 0);
+        //HighScores.text = "High Score: " + Cupcake.ToString();
 
     }
 
@@ -120,7 +124,8 @@ public class playermovement : MonoBehaviour
          Debug.Log("se murio");
          Time.timeScale = 0;
          BGmusic.Stop();
-        Panel.SetActive(true);
+         Panel.SetActive(true);
+         AddScore(Cupcake);
 
        }
        
@@ -148,7 +153,12 @@ public class playermovement : MonoBehaviour
         Freddy.SetBool("despla",false);
   }
 
+public void AddScore(int points)
+    {
+        SaveScore += points;
+        PlayerPrefs.SetInt("HighScore", SaveScore);
 
+    }
 
 
 }
